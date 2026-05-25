@@ -1,0 +1,77 @@
+name: ping-app
+
+services:
+  ping-frontend:
+    container_name: ping-frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - ping-backend-nginx
+    networks:
+      - ping-app
+
+  ping-backend-nginx:
+    container_name: ping-backend
+    platform: linux/amd64
+    build:
+      context: ./backend
+      dockerfile: .docker/nginx/Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - ./backend:/app:delegated
+    depends_on:
+      - ping-php-fpm
+    networks:
+      - ping-app
+
+  ping-php-fpm:
+    container_name: ping-php-fpm
+    build:
+      context: ./backend
+      dockerfile: .docker/php-fpm/Dockerfile
+    volumes:
+      - ./backend:/app:delegated
+    environment:
+      APP_ENV: local
+      DB_CONNECTION: mysql
+      DB_HOST: ping-db
+      DB_PORT: 3306
+      DB_DATABASE: ping_app
+      DB_USERNAME: ping_user
+      DB_PASSWORD: secret
+    depends_on:
+      ping-db:
+        condition: service_healthy
+    networks:
+      - ping-app
+
+  ping-db:
+    container_name: ping-db
+    platform: linux/amd64
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: ping_app
+      MYSQL_USER: ping_user
+      MYSQL_PASSWORD: secret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "ping_user", "-psecret"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    ports:
+      - "3307:3306"
+    networks:
+      - ping-app
+
+networks:
+  ping-app:
+
+volumes:
+  db-data:
