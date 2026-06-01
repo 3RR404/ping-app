@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\DevicesListResource;
 use App\Repositories\Device\DeviceRepositoryInterface;
+use App\Swagger\Attributes\GetEndpoint;
 use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
-#[OA\Get(
+#[GetEndpoint(
     path: '/api/devices/',
     operationId: 'getDeviceList',
     description: 'Get device list',
@@ -19,10 +20,10 @@ use OpenApi\Attributes as OA;
             description: 'Successful operation',
             content: new OA\JsonContent(
                 type: 'array',
-                items: new OA\Items(ref: DevicesListResource::class, type: 'object'),
-            )
+                items: new OA\Items(ref: DevicesListResource::class),
+            ),
         ),
-    ]
+    ],
 )]
 class DevicesListController extends Controller
 {
