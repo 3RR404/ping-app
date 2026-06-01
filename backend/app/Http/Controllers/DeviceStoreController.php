@@ -1,0 +1,23 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Http\Requests\DeviceStoreRequest;
+use App\Http\Resources\DeviceStoreResponse;
+use App\Repositories\Device\DeviceRepositoryInterface;
+use Illuminate\Http\Resources\Json\JsonResource;
+
+class DeviceStoreController extends Controller
+{
+    public function __invoke(DeviceStoreRequest $request, DeviceRepositoryInterface $deviceRepository): JsonResource
+    {
+        $dto = new \App\Dtos\DeviceDto(
+            uuid: $request->input('uuid'),
+            name: $request->input('name')
+        );
+
+        $device = $deviceRepository->store($dto);
+
+        return DeviceStoreResponse::make($device);
+    }
+}

@@ -17,6 +17,7 @@ A full-stack app with a Vue 3 frontend and a Laravel API backend, orchestrated v
    ```bash
    git clone git@github.com:3RR404/ping-app.git
    cd ping-app
+   cp backend/.env.example backend/.env
    ```
 
 2. **Build and start all containers**
@@ -32,6 +33,7 @@ A full-stack app with a Vue 3 frontend and a Laravel API backend, orchestrated v
    ```bash
    docker exec -i -t ping-php-fpm sh
    composer install
+   php artisan key:generate
    php artisan migrate
    ```
 

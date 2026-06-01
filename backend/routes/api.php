@@ -1,6 +1,12 @@
 <?php
 
-use App\Http\Controllers\PingController;
+use App\Http\Controllers;
 use Illuminate\Support\Facades\Route;
 
-Route::post('/ping', [PingController::class, 'store']);
+
+Route::group(['prefix' => '/devices'], static function () {
+    Route::post('/', Controllers\DeviceStoreController::class);
+    Route::get('/', Controllers\DevicesListController::class);
+    Route::get('/{uuid}', Controllers\DeviceDetailController::class);
+    Route::post('/{uuid}/ping', Controllers\PingStoreController::class);
+});
