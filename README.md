@@ -30,12 +30,12 @@ A full-stack app with a Vue 3 frontend and a Laravel API backend, orchestrated v
 3. **Install dependencies and run database migrations**:
 
    ```bash
-   docker exec -i -t ping-php-fpm composer install
-   docker exec -i -t ping-php-fpm php artisan key:generate
-   docker exec -i -t ping-php-fpm php artisan migrate
+   docker exec -it ping-php-fpm composer install
+   docker exec -it ping-php-fpm php artisan key:generate
+   docker exec -it ping-php-fpm php artisan migrate
    ```
 
-The app is now running. Open http://localhost:8080 in your browser.
+The app is now running. Open http://localhost:8000 in your browser.
 
 ## Testing
 
