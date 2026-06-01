@@ -1,13 +1,11 @@
 .env
 .idea/
 
-frontend/node_modules/
-frontend/dist/
-
-backend/vendor/
-storage/logs/*.log
-storage/app/public/
-bootstrap/cache/*.php
+/vendor
+/storage/logs/*.log
+/storage/app/public/
+/storage/framework/*/*.php
+/bootstrap/cache/*.php
 
 *.log
 .DS_Store
@@ -28,7 +26,6 @@ bootstrap/cache/*.php
 /public/storage
 /storage/*.key
 /storage/pail
-/vendor
 Homestead.json
 Homestead.yaml
 Thumbs.db
