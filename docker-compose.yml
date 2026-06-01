@@ -1,28 +1,16 @@
 name: ping-app
 
 services:
-  ping-frontend:
-    container_name: ping-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
-    ports:
-      - "8080:80"
-    depends_on:
-      - ping-backend-nginx
-    networks:
-      - ping-app
-
   ping-backend-nginx:
     container_name: ping-backend
     platform: linux/amd64
     build:
-      context: ./backend
+      context: .
       dockerfile: .docker/nginx/Dockerfile
     ports:
       - "8000:80"
     volumes:
-      - ./backend:/app:delegated
+      - ./:/app:delegated
     depends_on:
       - ping-php-fpm
     networks:
@@ -31,10 +19,10 @@ services:
   ping-php-fpm:
     container_name: ping-php-fpm
     build:
-      context: ./backend
+      context: .
       dockerfile: .docker/php-fpm/Dockerfile
     volumes:
-      - ./backend:/app:delegated
+      - ./:/app:delegated
     environment:
       APP_ENV: local
       DB_CONNECTION: mysql
