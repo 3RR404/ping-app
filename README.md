@@ -55,3 +55,12 @@ validation tests:
 docker exec -i -t ping-php-fpm sh
 php artisan test --filter DeviceApiTest
 ```
+
+## API Documentation
+
+Documentation of api endpoints is serving by l5-swagger. Complete API endpoitns documentation can be found at http://localhost:8000/api/documentation
+To generate swagger documentation run:
+
+```bash
+docker exec -it ping-php-fpm php artisan l5-swagger:generate
+```

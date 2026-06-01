@@ -1,0 +1,232 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Ping App",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/devices/{uuid}": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get device detail",
+                "description": "Get device detail by uuid",
+                "operationId": "getDeviceDetail",
+                "parameters": [
+                    {
+                        "name": "uuid",
+                        "in": "path",
+                        "description": "Device uuid",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Device detail",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceDetailResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/devices/": {
+            "get": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Get device list",
+                "description": "Get device list",
+                "operationId": "getDeviceList",
+                "responses": {
+                    "200": {
+                        "description": "Successful operation",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/DevicesListResource"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Store device",
+                "description": "Store device",
+                "operationId": "storeDevice",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/DeviceStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Device created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/DeviceStoreResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/devices/{uuid}/pings/": {
+            "post": {
+                "tags": [
+                    "Devices"
+                ],
+                "summary": "Store ping",
+                "description": "Store ping",
+                "operationId": "storePing",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PingStoreRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ping created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PingStoreResource"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "DeviceStoreRequest": {
+                "required": [
+                    "uuid",
+                    "name"
+                ],
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Device 1"
+                    }
+                },
+                "type": "object"
+            },
+            "PingStoreRequest": {
+                "required": [
+                    "battery_percent"
+                ],
+                "properties": {
+                    "battery_percent": {
+                        "type": "number",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "DeviceDetailResource": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Device 1"
+                    },
+                    "last_ping": {
+                        "type": "string",
+                        "format": "date-time",
+                        "example": "2026-06-01T11:40:28.000000Z"
+                    },
+                    "last_battery_percenatge": {
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "DeviceStoreResponse": {
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "example": 1
+                    },
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Device 1"
+                    }
+                },
+                "type": "object"
+            },
+            "DevicesListResource": {
+                "properties": {
+                    "uuid": {
+                        "type": "string",
+                        "example": "550e8400-e29b-41d4-a716-446655440000"
+                    },
+                    "name": {
+                        "type": "string",
+                        "example": "Device 1"
+                    },
+                    "last_battery_percenatge": {
+                        "type": "integer",
+                        "example": 100
+                    }
+                },
+                "type": "object"
+            },
+            "PingStoreResource": {
+                "properties": {
+                    "status": {
+                        "type": "string",
+                        "example": "ok"
+                    }
+                },
+                "type": "object"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Devices",
+            "description": "Devices"
+        }
+    ]
+}
