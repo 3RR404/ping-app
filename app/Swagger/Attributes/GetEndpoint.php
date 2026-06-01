@@ -18,7 +18,13 @@ class GetEndpoint extends OA\Get
         array $tags = [],
         array $parameters = [],
         array $responses = [],
+        bool $withDefaultResponses = true,
+        array $excludeDefaultResponses = [],
     ) {
+        $defaults = $withDefaultResponses
+            ? array_diff_key(DefaultResponses::get(), array_flip($excludeDefaultResponses))
+            : [];
+
         parent::__construct(
             path: $path,
             operationId: $operationId,
@@ -26,7 +32,7 @@ class GetEndpoint extends OA\Get
             summary: $summary,
             tags: $tags,
             parameters: $parameters,
-            responses: array_values(array_merge($responses, DefaultResponses::get())),
+            responses: array_values(array_merge($responses, $defaults)),
         );
     }
 }

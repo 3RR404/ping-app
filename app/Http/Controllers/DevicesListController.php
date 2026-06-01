@@ -24,6 +24,7 @@ use OpenApi\Attributes as OA;
             ),
         ),
     ],
+    excludeDefaultResponses: [422, 404]
 )]
 class DevicesListController extends Controller
 {

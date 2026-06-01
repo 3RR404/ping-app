@@ -11,11 +11,21 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use OpenApi\Attributes as OA;
 
 #[PostEndpoint(
-    path: '/api/devices/{uuid}/pings/',
+    path: '/api/devices/{uuid}/ping/',
     operationId: 'storePing',
     description: 'Store ping',
     summary: 'Store ping',
     tags: ['Devices'],
+    parameters: [
+        new OA\Parameter(
+            name: 'uuid',
+            description: 'Device uuid',
+            in: 'path',
+            required: true,
+            schema: new OA\Schema(type: 'string'),
+            example: '550e8400-e29b-41d4-a716-446655440000',
+        )
+    ],
     requestBody: new OA\RequestBody(
         content: new OA\JsonContent(ref: PingStoreRequest::class),
     ),

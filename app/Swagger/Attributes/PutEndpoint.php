@@ -19,7 +19,13 @@ class PutEndpoint extends OA\Put
         array $parameters = [],
         ?OA\RequestBody $requestBody = null,
         array $responses = [],
+        bool $withDefaultResponses = true,
+        array $excludeDefaultResponses = [],
     ) {
+        $defaults = $withDefaultResponses
+            ? array_diff_key(DefaultResponses::get(), array_flip($excludeDefaultResponses))
+            : [];
+
         parent::__construct(
             path: $path,
             operationId: $operationId,
@@ -28,7 +34,7 @@ class PutEndpoint extends OA\Put
             tags: $tags,
             parameters: $parameters,
             requestBody: $requestBody,
-            responses: array_values(array_merge($responses, DefaultResponses::get())),
+            responses: array_values(array_merge($responses, $defaults)),
         );
     }
 }
