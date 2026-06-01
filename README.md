@@ -47,3 +47,22 @@ cd frontend
 npm install
 npm run dev
 ```
+
+## Testing
+
+Run api tests for
+- creates device  
+- stores ping for existing device
+- returns device detail
+- ping returns 404 for unknown device
+- device detail returns 404 for unknown uuid
+
+validation tests:
+
+- create device fails validation when uuid missing invalid or name is missing
+- ping fails validation when battery percent is missing, above max or below min
+
+```bash
+docker exec -i -t ping-php-fpm sh
+php artisan test --filter DeviceApiTest
+```
